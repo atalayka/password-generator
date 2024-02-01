@@ -31,7 +31,16 @@ $Output = Get-Random -Shuffle $Password
 foreach ($currentItemName in $Output) {
     $PasswordOutput += $currentItemName
 }
+$DateTime = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
+$Content = "$PasswordOutput - $DateTime"
+
+$fileExists = Test-Path -Path "$env:USERPROFILE\Desktop\password.txt"
+if (-not $fileExists) {
+    $Content | Out-File -FilePath "$env:USERPROFILE\Desktop\password.txt"
+}
+if ($fileExists) {
+    Add-Content -Path "$env:USERPROFILE\Desktop\password.txt" -Value $Content
+}
+
 Write-Host $PasswordOutput -ForegroundColor Green
  
-
-
